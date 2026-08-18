@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const { dataSource } = require('./db/data-source');
 const appError = require('./utils/appError');
+const skill = require('./routes/skill');
+const creditPackage = require('./routes/creditPackage');
 
 const app = express();
 
@@ -18,6 +20,9 @@ app.get('/healthcheck', async (req, res, next) => {
     }
 });
 
+app.use('/api/coaches/skill', skill);
+app.use('/api/credit-package', creditPackage);
+
 // 404
 app.use((req, res, next) => {
     next(appError(404, '無此路由'));
@@ -25,7 +30,7 @@ app.use((req, res, next) => {
 
 // 錯誤處理守門員
 app.use((err, req, res, next) => {
-    const statusCode = err.status; // 500/ 401 /409
+    const statusCode = err.status || 500; // 500/ 401 /409
     res.status(statusCode).json({
         status: statusCode === 500 ? 'error' : 'failed',
         message: err.message || '伺服器錯誤'
