@@ -1,16 +1,23 @@
-require('dotenv').config();
 const { DataSource } = require('typeorm');
+const config = require('../config');
+const User = require('../entities/User');
+const Skill = require('../entities/Skill');
+const Coach = require('../entities/Coach');
 
 const dataSource = new DataSource({
     type: 'postgres',
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    synchronize: process.env.DB_SYNCHRONIZE === 'true',
-    ssl: process.env.DB_ENABLE_SSL === 'true',
-    entities: []
+    host: config.get('db.host'),
+    port: Number(config.get('db.port')),
+    username: config.get('db.username'),
+    password: config.get('db.password'),
+    database: config.get('db.database'),
+    synchronize: config.get('db.synchronize'),
+    ssl: config.get('db.ssl'),
+    entities: [
+        User,
+        Skill,
+        Coach
+    ]
 });
 
 module.exports = { dataSource };
