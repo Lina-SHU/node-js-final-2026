@@ -18,6 +18,7 @@ const creditPackageController = {
 
         if (!isValidString(name) || !isInteger(credit_amount) || !isInteger(price)) {
             next(appError(400, '欄位未填寫正確'));
+            return;
         }
 
         const creditPackageRepo = dataSource.getRepository('CreditPackage');
