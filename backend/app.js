@@ -4,6 +4,7 @@ const { dataSource } = require('./db/data-source');
 const appError = require('./utils/appError');
 const skill = require('./routes/skill');
 const creditPackage = require('./routes/creditPackage');
+const user = require('./routes/user');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get('/healthcheck', async (req, res, next) => {
 
 app.use('/api/coaches/skill', skill);
 app.use('/api/credit-package', creditPackage);
+app.use('/api/users', user);
 
 // 404
 app.use((req, res, next) => {

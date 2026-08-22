@@ -1,10 +1,10 @@
 require('dotenv').config();
 
 const db = require('./db');
-const sercet = require('./secret');
+const secret = require('./secret');
 const web = require('./web');
 
-const config = { db, sercet, web };
+const config = { db, secret, web };
 
 function get(path) {
     const keys = path.split('.');
