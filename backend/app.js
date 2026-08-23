@@ -5,7 +5,8 @@ const appError = require('./utils/appError');
 const skill = require('./routes/skill');
 const creditPackage = require('./routes/creditPackage');
 const user = require('./routes/user');
-const coach = require('./routes/coach');
+const adminCoach = require('./routes/adminCoaches');
+const adminCourse =  require('./routes/adminCourses');
 
 const app = express();
 
@@ -25,7 +26,8 @@ app.get('/healthcheck', async (req, res, next) => {
 app.use('/api/coaches/skill', skill);
 app.use('/api/credit-package', creditPackage);
 app.use('/api/users', user);
-app.use('/api/admin/coaches', coach);
+app.use('/api/admin/coaches/courses', adminCourse);
+app.use('/api/admin/coaches', adminCoach);
 
 // 404
 app.use((req, res, next) => {
