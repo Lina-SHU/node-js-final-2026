@@ -3,7 +3,7 @@ const appError = require("../utils/appError");
 const { isValidString, isInteger } = require("../utils/vaildUtils");
 const validator = require('validator');
 
-const coachController = {
+const adminCoachController = {
     async postCoachInfo(req, res, next) {
         try {
             const { experience_years, description, profile_image_url } = req.body;
@@ -373,4 +373,4 @@ const coachController = {
     }
 };
 
-module.exports = coachController;
+module.exports = adminCoachController;
