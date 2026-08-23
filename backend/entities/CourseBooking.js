@@ -1,8 +1,8 @@
 const { EntitySchema } = require('typeorm');
 
 module.exports = new EntitySchema({
-    name: 'Coach',
-    tableName: 'coaches',
+    name: 'CourseBooking',
+    tableName: 'course_bookings',
     columns: {
         id: {
             type: 'uuid',
@@ -10,42 +10,37 @@ module.exports = new EntitySchema({
             generated: 'uuid',
             nullable: false
         },
-        experience_years: {
-            type: 'integer',
-            nullable: false,
-            default: 0
-        },
-        description: {
-            type: 'text',
-            nullable: false
-        },
-        profile_image_url: {
-            type: 'varchar',
-            length: 2048,
-            nullable: true
-        },
-        created_at: {
-            type: 'timestamp',
-            createDate: true,
-            nullable: false
-        },
-        updated_at: {
-            type: 'timestamp',
-            updateDate: true,
-            nullable: false
-        },
         user_id: {
             type: 'uuid',
-            unique: true,
+            nullable: false
+        },
+        course_id: {
+            type: 'uuid',
+            nullable: false
+        },
+        cancelled_at: {
+            type: 'timestamp',
+            nullable: true
+        },
+        creared_at: {
+            type: 'timestamp',
+            createDate: true,
             nullable: false
         }
     },
     relations: {
         user: {
-            type: 'one-to-one',
+            type: 'many-to-one',
             target: 'User',
             joinColumn: {
                 name: 'user_id'
+            }
+        },
+        course: {
+            type: 'many-to-one',
+            target: 'Course',
+            joinColumn: {
+                name: 'course_id'
             }
         }
     }

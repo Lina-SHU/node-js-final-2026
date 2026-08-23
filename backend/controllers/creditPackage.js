@@ -20,6 +20,10 @@ const creditPackageController = {
             next(appError(400, '欄位未填寫正確'));
             return;
         }
+ 
+        if (credit_amount < 0 || price < 0) {
+            return next(appError(400, '欄位未填寫正確'));
+        }
 
         const creditPackageRepo = dataSource.getRepository('CreditPackage');
         const findCreditPackage = await creditPackageRepo.findOneBy({ name: name.trim() });

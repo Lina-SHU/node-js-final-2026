@@ -111,7 +111,7 @@ const userController = {
         const result = await userRepo.update({ id: userInfo.id }, { name: name.trim() });
 
         if (result.affected === 0) {
-            return  next(appError(400, '更新使用者資料失敗'));
+            return next(appError(400, '更新使用者資料失敗'));
         }
 
         res.json({
