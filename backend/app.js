@@ -7,6 +7,8 @@ const creditPackage = require('./routes/creditPackage');
 const user = require('./routes/user');
 const adminCoach = require('./routes/adminCoaches');
 const adminCourse =  require('./routes/adminCourses');
+const course = require('./routes/courses'); 
+const coach = require('./routes/coaches');
 
 const app = express();
 
@@ -28,6 +30,8 @@ app.use('/api/credit-package', creditPackage);
 app.use('/api/users', user);
 app.use('/api/admin/coaches/courses', adminCourse);
 app.use('/api/admin/coaches', adminCoach);
+app.use('/api/courses', course);
+app.use('/api/coaches', coach);
 
 // 404
 app.use((req, res, next) => {
