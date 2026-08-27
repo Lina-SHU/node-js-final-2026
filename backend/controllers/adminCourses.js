@@ -65,7 +65,7 @@ const adminCourseController = {
                 max_participants,
                 meeting_url
             } = req.body;
-            console.log(req.body);
+
             const userInfo = req.user;
             // 任一欄位缺漏或為空字串、max_participants 不是數字型別的 0 以上整數、meeting_url 不是 https 開頭。
             if (

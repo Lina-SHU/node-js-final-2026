@@ -161,6 +161,76 @@ const userController = {
         });
         return;
     },
+    async getCreditPackage(req, res, next) {
+        try {
+            const userInfo = req.user;
+            const creditPurchaseRepo = dataSource.getRepository('CreditPurchase');
+            const findPurchase = await creditPurchaseRepo.find({
+                where: { user_id: userInfo.id },
+                order: { purchase_at: 'ASC' },
+                relations: {
+                    credit_package: true
+                }
+            });
+            const purchaseList = findPurchase.map((item) => ({
+                name: item.credit_package.name,
+                purchased_credits: item.purchased_credits,
+                price_paid: Number(item.price_paid),
+                purchase_at: item.purchase_at
+            }));
+            res.json({
+                status: 'success',
+                data: purchaseList
+            })
+            return;
+        } catch(error) {
+            console.error('response 失敗:', error);
+            return next(appError(500, '伺服器錯誤'));
+        }
+    },
+    async getUserCourses(req, res, next) {
+        try {
+            const userInfo = req.user;
+            const courseBookingRepo = dataSource.getRepository('CourseBooking');
+            const purchaseRepo = dataSource.getRepository('CreditPurchase');
+
+            const purchases = await purchaseRepo.find({ where: { user_id: userInfo.id } })
+            // 總堂數
+            const totalPurchase = purchases.reduce((sum, p) => sum + p.purchased_credits, 0)
+
+            const findUserCourses = await courseBookingRepo.find({
+                where: { user_id: userInfo.id },
+                relations: { course: { user: true } },
+                order: { course: { start_at: 'ASC' } }
+            });
+
+            // 使用剩餘堂數
+            const creditUsage = findUserCourses.filter((item) => !item.cancelled_at).length;
+            const creditRemain = totalPurchase - creditUsage;
+
+            const courseBookingList = findUserCourses.map((item) => ({
+                course_id: item.course_id,
+                name: item.course.name,
+                start_at: item.course.start_at,
+                end_at: item.course.end_at,
+                meeting_url: item.course.meeting_url,
+                coach_name: item.course.user.name,
+                cancelled_at: item.cancelled_at
+            }));
+
+            res.json({
+                status: 'success',
+                data: {
+                    credit_remain: creditRemain,
+                    credit_usage: creditUsage,
+                    course_booking: courseBookingList
+                }
+            })
+        } catch(error) {
+            console.error('response 失敗:', error);
+            return next(appError(500, '伺服器錯誤'));
+        }
+    }
 };
 
 module.exports = userController;

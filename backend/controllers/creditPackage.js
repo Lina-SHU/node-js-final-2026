@@ -58,6 +58,35 @@ const creditPackageController = {
             status: 'success'
         });
         return;
+    },
+    async buyCreditPackage(req, res, next) {
+        try {
+            const { creditPackageId } = req.params;
+            const userInfo = req.user;
+
+            const creditPackageRepo = dataSource.getRepository('CreditPackage');
+
+            const findCreditPackage = await creditPackageRepo.findOneBy({ id: creditPackageId });
+
+            if (!findCreditPackage) {
+                return next(appError(400, 'ID錯誤'));
+            }
+
+            const creditPurchasesRepo = dataSource.getRepository('CreditPurchase');
+            await creditPurchasesRepo.save({
+                user_id: userInfo.id,
+                credit_package_id: creditPackageId,
+                purchased_credits: findCreditPackage.credit_amount,
+                price_paid: findCreditPackage.price
+            });
+            res.json({
+                status: 'success',
+                data: null
+            })
+        } catch(error) {
+            console.error('response 失敗:', error);
+            return next(appError(500, '伺服器錯誤'));
+        }
     }
 }
 
