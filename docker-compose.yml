@@ -52,29 +52,29 @@ services:
   #   - 要有 healthcheck（打你的 GET /healthcheck）
   #   - depends_on postgres 的 healthy
   # ============================================================
-  # backend:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8080:8080"
-  #   environment:
-  #     - PORT=8080
-  #     - DB_HOST=postgres # ← 容器內用服務名，不是 localhost
-  #     - DB_PORT=5432
-  #     - DB_USERNAME=student
-  #     - DB_PASSWORD=student666
-  #     - DB_DATABASE=fitness
-  #     - JWT_SECRET=node2026
-  #     - JWT_EXPIRES_DAY=30d
-  #     - DB_SYNCHRONIZE=true
-  #     - DB_ENABLE_SSL=false
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy # ← 等 DB 健康檢查通過才啟動 backend
-  #   healthcheck:
-  #     # 把網址補成你的 PORT 與 /healthcheck 路徑
-  #     test: ["CMD-SHELL", "node -e \"fetch('http://localhost:8080/healthcheck').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
-  #     interval: 10s
-  #     timeout: 3s
-  #     retries: 5
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - DB_HOST=postgres # ← 容器內用服務名，不是 localhost
+      - DB_PORT=5432
+      - DB_USERNAME=student
+      - DB_PASSWORD=student666
+      - DB_DATABASE=fitness
+      - JWT_SECRET=node2026
+      - JWT_EXPIRES_DAY=30d
+      - DB_SYNCHRONIZE=true
+      - DB_ENABLE_SSL=false
+    depends_on:
+      postgres:
+        condition: service_healthy # ← 等 DB 健康檢查通過才啟動 backend
+    healthcheck:
+      # 把網址補成你的 PORT 與 /healthcheck 路徑
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:8080/healthcheck').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
+      interval: 10s
+      timeout: 3s
+      retries: 5
