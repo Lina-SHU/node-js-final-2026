@@ -5,6 +5,7 @@ const appError = require('./utils/appError');
 const skill = require('./routes/skill');
 const creditPackage = require('./routes/creditPackage');
 const user = require('./routes/user');
+const adminRevenue = require('./routes/adminRevenue');
 const adminCoach = require('./routes/adminCoaches');
 const adminCourse =  require('./routes/adminCourses');
 const course = require('./routes/courses'); 
@@ -28,6 +29,7 @@ app.get('/healthcheck', async (req, res, next) => {
 app.use('/api/coaches/skill', skill);
 app.use('/api/credit-package', creditPackage);
 app.use('/api/users', user);
+app.use('/api/admin/coaches/revenue', adminRevenue);
 app.use('/api/admin/coaches/courses', adminCourse);
 app.use('/api/admin/coaches', adminCoach);
 app.use('/api/courses', course);
