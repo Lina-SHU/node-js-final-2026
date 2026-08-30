@@ -10,6 +10,7 @@ const adminCoach = require('./routes/adminCoaches');
 const adminCourse =  require('./routes/adminCourses');
 const course = require('./routes/courses'); 
 const coach = require('./routes/coaches');
+const uploadPhoto = require('./routes/upload');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/api/admin/coaches/courses', adminCourse);
 app.use('/api/admin/coaches', adminCoach);
 app.use('/api/courses', course);
 app.use('/api/coaches', coach);
+app.use('/api/upload', uploadPhoto);
 
 // 404
 app.use((req, res, next) => {
